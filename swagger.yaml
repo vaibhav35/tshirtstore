@@ -1,0 +1,1215 @@
+# swagger-ui-express - 4.4.0
+openapi: "3.1.0"
+info:
+  title: Tshirt store API
+  description: LCO - a course to create API for ecomm store
+  version: 1.1.0
+  contact:
+    email: hitesh@lco.dev
+    url: "https://lco.dev"
+
+# servers:
+#   - url: "https://localhost:4000/api/v1"
+#     description: for local host - secure
+#   - url: "http://localhost:4000/api/v1"
+#     description: for local host - regular
+
+servers:
+  - url: "{protocol}://{url}/api/{version}"
+    description: for local host 
+    variables:
+      version:
+        enum:
+          - v1
+          - v2
+        default: v1
+      url:
+        enum:
+          - localhost:4000
+          - lcotshirtstore.herokuapp.com
+        default: localhost:4000
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+
+
+  parameters:
+    orderId:
+      name: orderId
+      in: path
+      description: enter order id
+      required: true
+      schema:
+        type: string
+
+  schemas:
+    AppUser:
+      type: object
+      properties:
+        success: 
+          type: boolean
+        token: 
+          type: string  
+        user: 
+          type: object
+          properties:
+            name: 
+              type: string
+              example: Sandeep
+            email: 
+              type: string
+              format: email
+            role:
+              type: string
+              enum: 
+                - user
+                - admin
+                - manager
+            photo: 
+              type: object
+              properties:
+                id: 
+                  type: string
+                  example: users/l0fzxsa4bzlcmiwfaiuh
+                secure_url:
+                  type: string
+                  example: https://res.cloudinary.com/dp8myurzm/image/upload/v1690103705/users/l0fzxsa4bzlcmiwfaiuh.png
+            _id:
+              type: string
+              example: 64bcef98954be103d34080b4
+            createdAt: 
+              type: string
+              format: date-time
+            __v:
+              type: integer
+              format: int32
+              example: 0
+
+    SingleProduct:
+      type: object
+
+      properties:
+        _id: 
+          type: string
+          example: 62ae224b2df9718d031402f1
+        name:
+          type: string
+          example: Tshirt
+        price: 
+          type: integer
+          example: 100
+        description:
+          type: string
+        photos: 
+          type: array
+          items: 
+            $ref: '#/components/schemas/SingleProductPhoto'
+        category:
+          type: string
+          enum:
+            - shortsleeves
+            - longsleeves
+            - sweatshirt
+            - hoodies
+          example: shortsleeves
+        stock:
+          type: integer
+          example: 250
+        brand:
+          type: string
+          example: nike
+        ratings:
+          type: integer
+          example: 0
+        numberOfReviews:
+          type: integer
+          example: 0
+        user:
+          type: string
+          example: 62a9dg42sd5g224b1ef4d1e0
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleProductReview'       
+        createdAt: 
+          type: string
+          format: date-time
+        __v:
+          type: integer
+          format: int32
+          example: 0
+
+    SingleProductPhoto:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: products/l0fzxsa4bzlcmiwfaiuh
+        secure_url:
+          type: string
+          example: https://res.cloudinary.com/dp8myurzm/image/upload/v1690103705/products/l0fzxsa4bzlcmiwfaiuh.png,
+        _id: 
+          type: string
+          example: 62ae224b2df9718d703802f3
+
+    SingleProductReview:
+      type: object
+      properties:
+        user:
+          type: string
+          example: 62a9dg42sd5g224b1ef4d1e0
+        name:
+          type: string
+          example: Sandeep
+        ratings:
+          type: integer
+          example: 3
+        comment: 
+          type: string
+        _id: 
+          type: string
+          example: 62ae224b2df9718d031402f1
+
+    
+    OrderShippingInfo:
+      type: object
+      properties:
+        address:
+          type: string
+          example: 121-R
+        city:
+          type: string
+          example: Delhi
+        phoneNo:
+          type: string
+          example: 9999999999
+        postalCode:
+          type: string
+          example: 110034
+        state:
+          type: string
+          example: Delhi
+        country:
+          type: string
+          example: India
+
+    OrderPaymentInfo:
+      type: object
+      properties:
+        id:
+          type: string
+
+    OrderUser:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 64bcef98954be103d34080b4
+        name:
+          type: string
+          example: sandeep
+        email:
+          type: string
+          format: email
+          example: sandeep@gmail.com
+
+    OrderItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderItem'
+
+    OrderItem:
+      type: object
+      properties:
+        name:
+          type: string
+          example: sandeep
+        quantity:
+          type: string
+          example: Delhi
+        image:
+          type: string
+          example: https://res.cloudinary.com/dp8myurzm/image/upload/v1690103705/users/l0fzxsa4bzlcmiwfaiuh.png
+        price:
+          type: integer
+          format: int32
+          example: 100
+        product:
+          type: string
+          example: 64bcef98954be103d34080b4
+        _id:
+          type: string
+          example: 64bcef98954be103d34080b4
+
+    SingleOrder: 
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 64bcef98954be103d34080b4
+        shippingInfo:
+          $ref: '#/components/schemas/OrderShippingInfo'
+        paymentInfo:
+          $ref: '#/components/schemas/OrderPaymentInfo'
+        user:
+          type: string
+          example: 64bcef98954be103d34080b4
+        orderItems:
+          $ref: '#/components/schemas/OrderItems'
+        taxAmount:
+          type: number
+          example: 34.45
+        shippingAmount:
+          type: number
+          example: 100
+        totalAmount:
+          type: number
+          example: 165.50
+        orderStatus:
+          type: string
+          example: Delivered
+        createdAt: 
+          type: string
+          format: date-time
+        __v:
+          type: integer
+          format: int32
+          example: 0          
+
+  headers:
+    AddUserAuthenticationCookieToken:
+      Set-Cookie:
+              description: User login JWT token cookie
+              schema:
+                type: string
+    
+    RemoveUserAuthenticationCookieToken:
+      Set-Cookie:
+        description: Logout user by setting cookie value to null
+        schema:
+          type: string
+
+
+paths:
+  /dummy:
+    get:
+      tags:
+        - Home
+      summary: returns a greet message from LCO
+      responses:
+        '200':
+          description: All good success
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "mystring"
+        '400':
+          description: Bad request
+        '500':
+          description: internal server error
+
+  /signup:
+    post:
+      tags:
+        - User
+      summary: signing in new User
+      description: sign up for new user
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                photo:
+                  type: string
+                  format: binary
+      responses: 
+        '200':
+          description: A JSON object with success, token, user created details
+          content: 
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/AppUser'
+          headers:
+            $ref: '#/components/headers/AddUserAuthenticationCookieToken'
+
+
+  /login:
+    post:
+      tags:
+        - User
+      summary: Login for existing User
+      description: returns a login authentication token
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses: 
+        '200':
+          description: A JSON object with success, token, user created details
+          content: 
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/AppUser'
+          headers:
+            $ref: '#/components/headers/AddUserAuthenticationCookieToken'
+
+
+
+
+  /logout:
+    get:
+      tags:
+        - User
+      summary: Logs out user
+      description: user login token is removed
+      responses: 
+        '200':
+          description: OK Logout Successful
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+                  message: 
+                    type: string
+                    example: Logout success
+          headers:
+            $ref: '#/components/headers/RemoveUserAuthenticationCookieToken'
+              
+
+
+  /forgotPassword:
+    post:
+      tags:
+        - User
+      summary: Sends link on email to reset password
+      description: Sends link on email to reset password 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: one@gmail.com
+      responses: 
+        '200':
+          description: OK Email sent successfully
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+                  message: 
+                    type: string
+                    example: Email sent successfully
+          headers:
+            Set-Cookie:
+              description: Logout user by setting cookie value to null
+              schema:
+                type: string
+              
+
+
+
+  /password/reset/{token}:
+    post:
+      tags:
+        - User
+      summary: reset password
+      description: reset old password with the new password
+      parameters:
+        - name: token
+          in: path
+          description: reset token sent on email
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: integer
+                  example: 123456
+                confirmPassword:
+                  type: integer
+                  example: 123456
+      responses: 
+        '200':
+          description: Password reset successfully with new password
+          content: 
+           application/json:
+              schema:
+                $ref: '#/components/schemas/AppUser'
+          headers:
+            $ref: '#/components/headers/AddUserAuthenticationCookieToken'
+
+
+
+  /userdashboard:
+    get:
+      tags:
+        - User
+      summary: logged in user details
+      description: returns logged in user details
+      responses: 
+        '200':
+          description: Logged in user details 
+          content: 
+           application/json:
+              schema:
+                $ref: '#/components/schemas/AppUser'
+  /userdashboard/update:
+    post:
+      tags:
+        - User
+      summary: update user details
+      description: updates logged in user name, email and photo
+
+      requestBody:
+        required: true
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                photo:
+                  type: string
+                  format: binary
+
+      responses: 
+        '200':
+          description: updated successfully
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+
+
+
+  /admin/users:
+    get:
+      tags:
+        - User
+      summary: get all users details
+      description: returns details of all the application users if the user requesting role is admin
+
+      responses: 
+        '200':
+          description: returned array of all users details
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  users: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AppUser'
+
+
+  /admin/user/{id}:
+    get:
+      tags:
+        - User
+      summary: get all users details
+      description: returns details of all the application users if the user requesting role is admin
+      parameters:
+        - name: id
+          in: path
+          description: id of the user
+          required: true
+          schema:
+            type: string
+      responses: 
+        '200':
+          description: returns details of the user whose id is specified
+          content: 
+           application/json:
+              schema:
+                $ref: '#/components/schemas/AppUser'
+
+
+    put:
+      tags:
+        - User
+      summary: admin update one user details
+      description: admin can update any one user's name, email and role
+      parameters:
+        - name: id
+          in: path
+          description: id of the user
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+        content: 
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                role:
+                  type: string
+                  enum: 
+                    - user
+                    - admin
+                    - manager
+                  
+      responses: 
+        '200':
+          description: details updated
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+    delete:
+      tags:
+        - User
+      summary: admin delete user
+      description: admin can delete any one user through user's id
+      parameters:
+        - name: id
+          in: path
+          description: id of the user
+          required: true
+          schema:
+            type: string
+
+      responses: 
+        '200':
+          description: user deleted
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /manager/users:
+    get:
+      tags:
+        - User
+      summary: get all users details
+      description: returns details of all the application users if the user requesting role is manager
+
+      responses: 
+        '200':
+          description: returned array of all users details
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  users: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AppUser'
+
+
+
+
+
+
+
+
+  /products:
+    get:
+      tags:
+        - Product APIs
+      summary: get all products
+      description: returns all the products
+
+      responses: 
+        '200':
+          description: returned array of all products 
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  products: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SingleProduct'
+
+                  filteredProductNumber:
+                    type: integer
+                    example: 2
+                  totalcountProduct:
+                    type: integer
+                    example: 2
+  /product/{id}:
+    get:
+      tags:
+        - Product APIs
+      summary: returns a product
+      description: returns details of the product whose ID is specified
+      parameters:
+        - name: id
+          in: path
+          description: enter id of the product
+          required: true
+          schema:
+            type: string
+      responses: 
+        '200':
+          description: returned product details object
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  product:
+                    $ref: '#/components/schemas/SingleProduct'
+  /review:
+    put:
+      tags:
+        - Product APIs
+      summary: Add/Edit review 
+      description: User can add a review or edit existing review.
+      requestBody:                                                        
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                rating: 
+                  type: integer
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                comment:
+                  type: string
+                  example: "good product"
+                productId:
+                  type: string
+                  example: "62ae224b2df9718d031402f1"
+                
+
+      responses: 
+        '200':
+          description: OK
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+    delete:
+      tags:
+        - Product APIs
+      summary: Delete review 
+      description: User can delete his/her review on a product
+      parameters:
+        - name: productId
+          in: query
+          description: enter id of the product whose review has to be deleted
+          required: true
+          schema:
+            type: string
+      
+      responses: 
+        '200':
+          description: deleted product review successfully
+          content: 
+           application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+  /reviews:
+    get:
+      tags:
+        - Product APIs
+      summary: return product reviews
+      description: Returns all reviews of a product
+      parameters:
+        - name: id
+          in: query
+          description: send id of the product 
+          required: true
+          schema:
+            type: string
+      
+      responses: 
+        '200':
+          description: returns array of product reviews
+          content: 
+           application/json:
+              schema:
+              
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  reviews:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/SingleProductReview'
+
+  /admin/product/add:
+    post:
+      tags:
+        - Product APIs
+      summary: Add new product
+      description: user with role of admin can add a new product
+      requestBody:                                                    
+              content:
+                multipart/form-data:
+                  schema:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Tshirt
+                      price: 
+                        type: integer
+                        example: 100
+                      description:
+                        type: string
+                      photos: 
+                        type: array
+                        items:
+                          type: string
+                          format: binary
+                      category:
+                        type: string
+                        enum:
+                          - shortsleeves
+                          - longsleeves
+                          - sweatshirt
+                          - hoodies
+                        example: shortsleeves
+                      stock:
+                        type: integer
+                        example: 250
+                      brand:
+                        type: string
+                        example: nike
+                    required:
+                      - name
+                      - photos
+                      - category
+                      - price
+                      - description
+                      - stock
+                      - brand
+
+      responses: 
+        '200':
+          description: returned product details object
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  product:
+                    $ref: '#/components/schemas/SingleProduct'
+
+
+  /admin/products:
+    get:
+        tags:
+          - Product APIs
+        summary: return all products
+        description: return the products for admin 
+        responses: 
+          '200':
+            description: returned array of all products 
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties: 
+                    success:
+                      type: boolean
+                    products: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/SingleProduct'
+
+  /admin/product/{id}:
+    put:
+      tags:
+        - Product APIs
+      summary: edit a product
+      description: admin can edit a product details 
+      parameters:
+        - name: id
+          in: path
+          description: enter id of the product
+          required: true
+          schema:
+            type: string
+      requestBody:                                                    
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Tshirt
+                price:
+                  type: integer
+                  example: 100
+                description:
+                  type: string
+                photos:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                category:
+                  type: string
+                  enum:
+                    - shortsleeves
+                    - longsleeves
+                    - sweatshirt
+                    - hoodies
+                  example: shortsleeves
+                stock:
+                  type: integer
+                  example: 250
+                brand:
+                  type: string
+                  example: nike
+                  nullable: true
+      responses: 
+        '200':
+          description: returned array of all products 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  product:
+                    $ref: '#/components/schemas/SingleProduct'
+    delete:
+      tags:
+        - Product APIs
+      summary: delete a product
+      description: admin can delete a product 
+      parameters:
+        - name: id
+          in: path
+          description: enter id of the product
+          required: true
+          schema:
+            type: string
+      responses: 
+        '200':
+          description: product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    example: Product was deleted !
+
+
+
+# order paths
+
+  /order/create:
+    post:
+      tags: 
+        - Order APIs
+      summary: create a order
+      description: admin can edit a product details 
+
+      requestBody:                                                    
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shippingInfo:
+                  $ref: '#/components/schemas/OrderShippingInfo'
+                orderItems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: sandeep
+                      quantity:
+                        type: integer
+                        example: 2
+                      image:
+                        type: string
+                        example: https://res.cloudinary.com/dp8myurzm/image/upload/v1690103705/users/l0fzxsa4bzlcmiwfaiuh.png
+                      price:
+                        type: integer
+                        format: int32
+                        example: 100
+                      product:
+                        type: string
+                        example: 64bcef98954be103d34080b4
+                paymentInfo:
+                  $ref: '#/components/schemas/OrderPaymentInfo'
+                taxAmount:
+                  type: number
+                  example: 34.45
+                shippingAmount:
+                  type: number
+                  example: 100
+                totalAmount:
+                  type: number
+                  example: 165.50
+                
+
+      responses: 
+        '200':
+          description: order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  order:
+                    $ref: '#/components/schemas/SingleOrder'
+  /order/{orderId}:
+    get:
+      tags: 
+        - Order APIs
+      summary: returns an order
+      description: returns an order whose Id is passed in path parameters
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+
+
+      responses: 
+        '200':
+          description: order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  order:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 64bcef98954be103d34080b4
+                      shippingInfo:
+                        $ref: '#/components/schemas/OrderShippingInfo'
+                      paymentInfo:
+                        $ref: '#/components/schemas/OrderPaymentInfo'
+                      user:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            example: 64bcef98954be103d34080b4
+                          name:
+                            type: string
+                            example: sandeep
+                          email:
+                            type: string
+                            example: sandeep@gmail.com
+                          
+                      orderItems:
+                        $ref: '#/components/schemas/OrderItems'
+                      taxAmount:
+                        type: number
+                        example: 34.45
+                      shippingAmount:
+                        type: number
+                        example: 100
+                      totalAmount:
+                        type: number
+                        example: 165.50
+                      orderStatus:
+                        type: string
+                        example: Delivered
+                      createdAt: 
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+                        format: int32
+                        example: 0    
+  /myorder:
+    get:
+      tags: 
+        - Order APIs
+      summary: returns all orders of user
+      description: returns all orders of the users who is logged in
+
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  order:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SingleOrder'
+  /admin/orders:
+    get:
+      tags: 
+        - Order APIs
+      summary: returns all the orders
+      description: returns all orders of all the users. Only Admin can use this route
+
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  order:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SingleOrder'
+
+
+  /admin/order/{orderId}:
+    put:
+      tags: 
+        - Order APIs
+      summary: update an order
+      description: Admin can update an order status to Delivered
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+
+      requestBody:                                                    
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderStatus: 
+                  type: string
+                  example: Delivered
+      responses: 
+        '200':
+          description: order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+                  order:
+                    $ref: '#/components/schemas/SingleOrder'
+    delete:
+      tags: 
+        - Order APIs
+      summary: delete an order
+      description: Admin can delete an order
+      parameters:
+        - $ref: '#/components/parameters/orderId'
+
+      responses: 
+        '200':
+          description: order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
