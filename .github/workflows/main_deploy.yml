@@ -23,6 +23,22 @@ jobs:
             git clone git@github.com:vaibhav35/tshirtstore.git
             cd tshirtstore/
             touch .env
-            echo "${{secrets.ENV_FILE}}" > .env
+            echo PORT=${{ secrets.PORT }} >> .env
+            echo DB_URL=${{ secrets.DB_URL }} >> .env
+            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+            echo JWT_EXPIRY=${{ secrets.JWT_EXPIRY }} >> .env
+            echo COOKIE_TIME=${{ secrets.COOKIE_TIME }} >> .env
+            echo CLOUDINARY_NAME=${{ secrets.CLOUDINARY_NAME }} >> .env
+            echo CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }} >> .env
+            echo CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }} >> .env
+            echo SMTP_HOST=${{ secrets.SMTP_HOST }} >> .env
+            echo SMTP_PORT=${{ secrets.SMTP_PORT }} >> .env
+            echo SMTP_USER=${{ secrets.SMTP_USER }} >> .env
+            echo SMTP_PASS=${{ secrets.SMTP_PASS }} >> .env
+            echo STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }} >> .env
+            echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} >> .env
+            echo RAZORPAY_API_KEY=${{ secrets.RAZORPAY_API_KEY }} >> .env
+            echo RAZORPAY_SECRET=${{ secrets.RAZORPAY_SECRET }} >> .env  
+            
             npm ci
             echo 'Deployed successfully on digitalocean droplet '
