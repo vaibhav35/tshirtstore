@@ -17,8 +17,6 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
 
           script: |
-
-            script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd ~/tshirtstoreapi/
