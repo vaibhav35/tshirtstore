@@ -23,5 +23,5 @@ jobs:
             git clone git@github.com:vaibhav35/tshirtstore.git
             touch ./tshirtstore/.env
             echo "${{secrets.ENV_FILE}}" > .env
-            npm install
+            npm ci
             echo 'Deployed successfully on digitalocean droplet '
