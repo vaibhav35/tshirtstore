@@ -18,11 +18,11 @@ jobs:
           passphrase: ${{secrets.SSH_PASSPHRASE}}
 
           script: |
-            cd tshirtstoreapi
-            rm -rf tshirtstore
+            cd ~/cdtshirtstoreapi/rm
+            rm -rf tshirtstore/
             git clone git@github.com:vaibhav35/tshirtstore.git
-            cd tshirtstore
+            cd tshirtstore/
             touch .env
-            echo "${{secrets.ENV_FILE}}" >> .env
+            echo "${{secrets.ENV_FILE}}" > .env
             npm ci
             echo 'Deployed successfully on digitalocean droplet '
