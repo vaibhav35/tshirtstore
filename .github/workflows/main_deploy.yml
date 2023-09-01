@@ -37,7 +37,6 @@ jobs:
             echo STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }} >> .env
             echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} >> .env
             echo RAZORPAY_API_KEY=${{ secrets.RAZORPAY_API_KEY }} >> .env
-            echo RAZORPAY_SECRET=${{ secrets.RAZORPAY_SECRET }} >> .env  
-            
+            echo RAZORPAY_SECRET=${{ secrets.RAZORPAY_SECRET }} >> .env 
             npm ci
             echo 'Deployed successfully on digitalocean droplet '
