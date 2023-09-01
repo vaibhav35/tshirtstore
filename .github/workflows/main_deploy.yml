@@ -18,7 +18,7 @@ jobs:
           passphrase: ${{secrets.SSH_PASSPHRASE}}
 
           script: |
-            cd ~/cdtshirtstoreapi/
+            cd ~/tshirtstoreapi/
             rm -rf tshirtstore/
             git clone git@github.com:vaibhav35/tshirtstore.git
             cd tshirtstore/
