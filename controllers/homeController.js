@@ -20,7 +20,7 @@ exports.homeDummy = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      greeting: "this is another dummy route not edited",
+      greeting: "this is another dummy route a lot edited",
     });
   } catch (error) {
     console.log(error);
