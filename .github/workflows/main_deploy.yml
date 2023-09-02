@@ -25,10 +25,10 @@ jobs:
             cd tshirtstore/
             touch .env
             echo PORT=${{ secrets.PORT }} >> .env
-            echo DB_URL=${{ secrets.DB_URL }} >> .env
             echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
             echo JWT_EXPIRY=${{ secrets.JWT_EXPIRY }} >> .env
             echo COOKIE_TIME=${{ secrets.COOKIE_TIME }} >> .env
+            echo DB_URL=${{ secrets.DB_URL }} >> .env
             echo CLOUDINARY_NAME=${{ secrets.CLOUDINARY_NAME }} >> .env
             echo CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }} >> .env
             echo CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }} >> .env
