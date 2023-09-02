@@ -41,4 +41,5 @@ jobs:
             echo RAZORPAY_API_KEY=${{ secrets.RAZORPAY_API_KEY }} >> .env
             echo RAZORPAY_SECRET=${{ secrets.RAZORPAY_SECRET }} >> .env 
             npm ci
+            pm2 restart tshirtapi
             echo 'Deployed successfully on digitalocean droplet testing'
